@@ -1,36 +1,47 @@
 #include <stdio.h>
 
-int main() {
-    int tabuleiro[10][10] = {0};
-
-    // Navio 1: vertical (coluna 2)
-    for (int i = 0; i < 4; i++) {
-        tabuleiro[i][2] = 3;
-    }
-
-    // Navio 2: horizontal (linha 5)
-    for (int j = 4; j < 8; j++) {
-        tabuleiro[5][j] = 3;
-    }
-
-    // Navio 3: diagonal principal (↘)
-    for (int i = 0; i < 4; i++) {
-        tabuleiro[i][i] = 3;
-    }
-
-    // Navio 4: diagonal secundária (↙)
-    for (int i = 0; i < 4; i++) {
-        tabuleiro[i][9 - i] = 3;
-    }
-
-    // Exibe o tabuleiro completo
-    printf("Tabuleiro 10x10 com navios:\n");
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            printf("%d ", tabuleiro[i][j]);
+// Exibe qualquer matriz com 0 (não afetado) e 1 (afetado)
+void exibirMatriz(int matriz[5][5], const char* nome) {
+    printf("\nHabilidade: %s\n", nome);
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            printf("%d ", matriz[i][j]);
         }
         printf("\n");
     }
+}
+
+int main() {
+    int cone[5][5] = {0};
+    int cruz[5][5] = {0};
+    int octaedro[5][5] = {0};
+
+    // Cone (formato em pirâmide invertida)
+    for (int i = 0; i < 3; i++) {
+        for (int j = 2 - i; j <= 2 + i; j++) {
+            cone[i][j] = 1;
+        }
+    }
+
+    // Cruz
+    for (int i = 0; i < 5; i++) {
+        cruz[2][i] = 1; // linha do meio
+        cruz[i][2] = 1; // coluna do meio
+    }
+
+    // Octaedro (diamante)
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 5; j++) {
+            if (abs(i - 2) + abs(j - 2) <= 1) {
+                octaedro[i][j] = 1;
+            }
+        }
+    }
+
+    // Exibir os padrões
+    exibirMatriz(cone, "Cone");
+    exibirMatriz(cruz, "Cruz");
+    exibirMatriz(octaedro, "Octaedro");
 
     return 0;
 }
